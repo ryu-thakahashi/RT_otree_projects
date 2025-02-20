@@ -1,0 +1,8 @@
+otree>=5.11.1
+typer
+
+[dev]
+coverage
+mypy
+pytest
+ruff
