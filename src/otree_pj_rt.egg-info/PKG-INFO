@@ -11,6 +11,8 @@ Project-URL: homepage, https://github.com/ryu-thakahashi/otree_pj_rt
 Description-Content-Type: text/x-rst
 License-File: LICENSE
 License-File: AUTHORS.rst
+Requires-Dist: gspread>=6.1.4
+Requires-Dist: oauth2client>=4.1.3
 Requires-Dist: otree>=5.11.1
 Requires-Dist: typer
 Provides-Extra: dev

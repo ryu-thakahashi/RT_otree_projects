@@ -18,6 +18,8 @@ classifiers = [
 ]
 license = {text = "MIT license"}
 dependencies = [
+  "gspread>=6.1.4",
+  "oauth2client>=4.1.3",
   "otree>=5.11.1",
   "typer",
 ]

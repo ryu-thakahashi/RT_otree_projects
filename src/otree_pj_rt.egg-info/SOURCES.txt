@@ -15,6 +15,8 @@ docs/installation.rst
 docs/make.bat
 docs/readme.rst
 docs/usage.rst
+docs/image/oTree_setup/1740037112589.png
+docs/image/oTree_setup/1740038154047.png
 src/__init__.py
 src/config.py
 src/otree_pj_rt/__init__.py
