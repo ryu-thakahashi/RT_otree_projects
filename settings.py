@@ -8,6 +8,7 @@ SESSION_CONFIGS = [
     ),
 ]
 
+
 if "DATABASE_URL" in environ:
     del environ["DATABASE_URL"]
 
