@@ -1,4 +1,6 @@
 from otree.api import *
+from simple_sd.payoff_caluculator import num_of_coopeartors, caluculate_payoff
+
 doc = """
 Simple Social Dilemma Game
 """
@@ -9,6 +11,7 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
     BC_RATIO = 3
+    DECITION_DICT = {"Cooperate": 1, "Defect": 0}
 
 
 class Subsession(BaseSubsession):
@@ -20,18 +23,14 @@ class Subsession(BaseSubsession):
 class Group(BaseGroup):
     def set_payoffs(group: BaseGroup):
         players = group.get_players()
-
-        num_cooperators = sum([p.decision == "協力" for p in players])
-        group_payoff = num_cooperators * C.BC_RATIO
         for p in players:
-            p.payoff = group_payoff / C.PLAYERS_PER_GROUP
-            p.group_num_cooperators = num_cooperators
+            p.payoff = caluculate_payoff(C, players)
 
 class Player(BasePlayer):
     decision = models.StringField(
-        choices=['協力', '非協力'],
+        choices=['Cooperate', 'Defect'],
         widget=widgets.RadioSelectHorizontal,
-        doc="""プレイヤーが協力するかどうか"""
+        doc="""Whether the player cooperates (True) or defects (False)"""
     )
 
 
@@ -49,9 +48,11 @@ class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group_players = player.get_others_in_group()
+        num_cooperators = num_of_coopeartors(C, group_players)
         return {
             "player": player,
             "group_players": group_players,
+            "num_cooperators": num_cooperators,
             "total_players": len(group_players),
             "payoff": player.payoff
         }
