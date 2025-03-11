@@ -10,7 +10,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = "click_competition"
     PLAYERS_PER_GROUP = 2
-    NUM_ROUNDS = 10
+    NUM_ROUNDS = 1000
 
 
 class Subsession(BaseSubsession):

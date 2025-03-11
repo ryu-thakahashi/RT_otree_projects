@@ -2,11 +2,26 @@
 
 <h2>クリックしてスコアを競おう！</h2>
 <p>あなたのクリック数: <span id="my-clicks">0</span></p>
-<p>対戦相手のクリック数: <span id="opponent-clicks">0</span></p>
-<button id="click-button" type="button">クリック！</button>
+<div class="progress-container">
+    <div id="my-progress" class="progress-bar"></div>
+</div>
 
+<p>対戦相手のクリック数: <span id="opponent-clicks">0</span></p>
+<div class="progress-container">
+    <div id="opponent-progress" class="progress-bar"></div>
+</div>
+
+<button id="click-button" type="button" class="btn btn-primary">
+    クリック！
+</button>
+
+<link
+    rel="stylesheet"
+    href="{{ static 'click_competition/progress_bar.css'}}"
+/>
 <script>
     let myClicks = 0;
+    const MAX_CLICKS = 100;
     let my_id = "{{my_id}}";
     let opponent_id = "{{opponent_id}}";
 
@@ -14,14 +29,23 @@
         .getElementById("click-button")
         .addEventListener("click", function () {
             myClicks++;
-            document.getElementById("my-clicks").textContent = myClicks;
+            updateProgress("my-clicks", "my-progress", myClicks);
             liveSend({ action: "click" });
         });
 
+    function updateProgress(counterId, progressId, value) {
+        document.getElementById(counterId).textContent = value;
+        let percentage = Math.min((value / MAX_CLICKS) * 100, 100);
+        document.getElementById(progressId).style.width = percentage + "%";
+    }
+
     function liveRecv(data) {
         console.log(data);
-        document.getElementById("opponent-clicks").textContent =
-            data[opponent_id];
+        updateProgress(
+            "opponent-clicks",
+            "opponent-progress",
+            data[opponent_id]
+        );
     }
 </script>
 {{endblock}}
