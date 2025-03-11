@@ -6,6 +6,18 @@ SESSION_CONFIGS = [
         app_sequence=["simple_pd"],
         num_demo_participants=2,
     ),
+    dict(
+        name="simple_sd",
+        app_sequence=["simple_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
+    ),
+    dict(
+        name="user_friendly_sd",
+        app_sequence=["user_friendly_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
+    ),
 ]
 
 
