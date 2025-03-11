@@ -13,6 +13,10 @@ class C(BaseConstants):
     PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 1
     BC_RATIO = 3
+    DECISION_DICT = {
+        "C": {"bs5": "success", "btn_label": "A"},
+        "D": {"bs5": "warning text-dark", "btn_label": "B"},
+    }
 
 
 class Subsession(BaseSubsession):
@@ -29,6 +33,10 @@ class Group(BaseGroup):
             p.num_of_coopeartors = num_of_coopeartors(p_decision_list)
             p.payoff = caluculate_payoff(p_decision_list, C.BC_RATIO)
 
+            # bs5 で使うためのフィールド
+            p.decision_color = C.DECISION_DICT[p.decision]["bs5"]
+            p.decision_str = C.DECISION_DICT[p.decision]["btn_label"]
+
 
 class Player(BasePlayer):
     decision = models.StringField(
@@ -37,9 +45,18 @@ class Player(BasePlayer):
     )
     num_of_coopeartors = models.IntegerField()
 
+    # user 視点でのフィールド
+    decision_color = models.StringField(
+        doc="bs5 で使うためのフィールド (C: success, D: warning)",
+    )
+    decision_str = models.StringField(
+        doc="user 視点でのフィールド (C: A, D: B)",
+    )
+
 
 # PAGES
 class MyPage(Page):
+    extra_js = ["user_friendly_sd/MyPage/btn_flow.js"]
     form_model = "player"
     form_fields = ["decision"]
 
@@ -52,12 +69,11 @@ class Results(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group_players = player.get_others_in_group()
-        p_decision_list = extract_player_decisions(group_players)
-        num_cooperators = num_of_coopeartors(p_decision_list)
         return {
             "player": player,
             "group_players": group_players,
             "num_cooperators": player.num_of_coopeartors,
+            "num_defectors": C.PLAYERS_PER_GROUP - player.num_of_coopeartors,
             "total_players": len(group_players),
             "payoff": player.payoff,
         }
