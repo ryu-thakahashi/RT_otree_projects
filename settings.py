@@ -12,6 +12,12 @@ SESSION_CONFIGS = [
         num_demo_participants=3,
         players_per_group=3,
     ),
+    dict(
+        name="user_friendly_sd",
+        app_sequence=["user_friendly_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
