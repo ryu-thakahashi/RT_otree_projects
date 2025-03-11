@@ -18,6 +18,11 @@ SESSION_CONFIGS = [
         num_demo_participants=3,
         players_per_group=3,
     ),
+    dict(
+        name="click_competition",
+        app_sequence=["click_competition"],
+        num_demo_participants=2,
+    ),
 ]
 
 
