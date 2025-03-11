@@ -1,0 +1,27 @@
+{{block content}}
+
+<h2>クリックしてスコアを競おう！</h2>
+<p>あなたのクリック数: <span id="my-clicks">0</span></p>
+<p>対戦相手のクリック数: <span id="opponent-clicks">0</span></p>
+<button id="click-button" type="button">クリック！</button>
+
+<script>
+    let myClicks = 0;
+    let my_id = "{{my_id}}";
+    let opponent_id = "{{opponent_id}}";
+
+    document
+        .getElementById("click-button")
+        .addEventListener("click", function () {
+            myClicks++;
+            document.getElementById("my-clicks").textContent = myClicks;
+            liveSend({ action: "click" });
+        });
+
+    function liveRecv(data) {
+        console.log(data);
+        document.getElementById("opponent-clicks").textContent =
+            data[opponent_id];
+    }
+</script>
+{{endblock}}
