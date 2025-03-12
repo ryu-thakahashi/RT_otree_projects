@@ -1,30 +1,95 @@
 {{block content}}
 
 <h2>クリックしてスコアを競おう！</h2>
-<p>あなたのクリック数: <span id="my-clicks">0</span></p>
-<div class="progress-container">
-    <div id="my-progress" class="my-progress-bar"></div>
+
+<!-- モーダル（グレーな重なり） -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <p>ゲーム開始まで</p>
+        <p><span id="countdown">{{ countdown_time }}</span> 秒</p>
+    </div>
 </div>
 
-<p>対戦相手のクリック数: <span id="opponent-clicks">0</span></p>
-<div class="progress-container">
-    <div id="opponent-progress" class="opp-progress-bar"></div>
+<div class="row justify-content-center align-items-center g-2">
+    <div class="col">
+        <p>あなたのクリック数: <span id="my-clicks">0</span></p>
+        <div class="progress-container">
+            <div id="my-progress" class="my-progress-bar"></div>
+        </div>
+
+        {{if show_opponent }}
+        <p>対戦相手のクリック数: <span id="opponent-clicks">0</span></p>
+        <div class="progress-container">
+            <div id="opponent-progress" class="opp-progress-bar"></div>
+        </div>
+        {{else}}
+        <div style="display: none">
+            <span id="opponent-clicks">0</span>
+            <div class="progress-container">
+                <div id="opponent-progress" class="opp-progress-bar"></div>
+            </div>
+        </div>
+        {{endif}}
+
+        <button id="click-button" type="button" class="btn btn-primary">
+            クリック！
+        </button>
+    </div>
+    <div class="col-4" style="height: 100%">
+        <canvas id="timer" style="height: 100%">
+            <!-- timer contents -->
+        </canvas>
+    </div>
 </div>
 
-<button id="click-button" type="button" class="btn btn-primary">
-    クリック！
-</button>
-
+<!-- スタイルシートの読み込み -->
 <link
     rel="stylesheet"
     href="{{ static 'click_competition/progress_bar.css'}}"
 />
-<script>
+<link rel="stylesheet" href="{{ static 'click_competition/modal.css'}}" />
+
+<!-- スクリプトの読み込み -->
+<script type="module">
+    import {
+        startTimer,
+        initTimer,
+    } from "{{ static 'click_competition/circle_timer.js'}}";
+
     let myClicks = 0;
     const MAX_CLICKS = 100;
+
     let my_id = "{{my_id}}";
     let opponent_id = "{{opponent_id}}";
+    let countdown_time = Number("{{countdown_time}}");
+    let game_time = Number("{{game_time}}");
 
+    const modal = document.getElementById("modal");
+    const countdown_elem = document.getElementById("countdown");
+    const clickButton = document.getElementById("click-button");
+
+    // 円形タイマーの要素
+    const timerContainer = document.getElementById("timer-container");
+    const progressCircle = document.getElementById("progress-circle");
+    const timeLeft = document.getElementById("time-left");
+
+    function ableClickDisplay() {
+        modal.style.display = "none";
+        clickButton.disabled = false;
+        startTimer(game_time, Date.now());
+    }
+
+    function startCountdown() {
+        let countdownTimer = setInterval(function () {
+            console.log(countdown_time);
+            countdown_time--;
+            countdown_elem.textContent = countdown_time;
+            if (countdown_time <= 0) {
+                clearInterval(countdownTimer);
+                ableClickDisplay();
+            }
+        }, 1000);
+    }
     document
         .getElementById("click-button")
         .addEventListener("click", function () {
@@ -39,13 +104,16 @@
         document.getElementById(progressId).style.width = percentage + "%";
     }
 
-    function liveRecv(data) {
+    window.liveRecv = function (data) {
         console.log(data);
         updateProgress(
             "opponent-clicks",
             "opponent-progress",
             data[opponent_id]
         );
-    }
+    };
+
+    initTimer();
+    startCountdown();
 </script>
 {{endblock}}

@@ -27,5 +27,3 @@ src/otree_pj_rt.egg-info/SOURCES.txt
 src/otree_pj_rt.egg-info/dependency_links.txt
 src/otree_pj_rt.egg-info/requires.txt
 src/otree_pj_rt.egg-info/top_level.txt
-tests/__init__.py
-tests/test_otree_pj_rt.py

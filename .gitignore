@@ -13,3 +13,4 @@ __pycache__/
 *.otreezip
 .env
 api_keys.json
+raw_data/

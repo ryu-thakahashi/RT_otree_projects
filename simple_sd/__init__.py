@@ -1,20 +1,21 @@
 from otree.api import *
+
 doc = """
 Simple Social Dilemma Game
 """
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'simple_sd'
+    NAME_IN_URL = "simple_sd"
     PLAYERS_PER_GROUP = 3
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 5
     BC_RATIO = 3
 
 
 class Subsession(BaseSubsession):
     def creating_session(self):
         if self.session.config.get("players_per_group"):
-            self.session.config["players_per_group"] = C.PLAYERS_PER_GROUP  
+            self.session.config["players_per_group"] = C.PLAYERS_PER_GROUP
 
 
 class Group(BaseGroup):
@@ -27,19 +28,20 @@ class Group(BaseGroup):
             p.payoff = group_payoff / C.PLAYERS_PER_GROUP
             p.group_num_cooperators = num_cooperators
 
+
 class Player(BasePlayer):
     decision = models.StringField(
-        choices=['協力', '非協力'],
+        choices=["協力", "非協力"],
         widget=widgets.RadioSelectHorizontal,
-        doc="""プレイヤーが協力するかどうか"""
+        doc="""プレイヤーが協力するかどうか""",
     )
     group_num_cooperators = models.IntegerField(doc="グループ内の協力者数")
 
 
 # PAGES
 class MyPage(Page):
-    form_model = 'player'
-    form_fields = ['decision']
+    form_model = "player"
+    form_fields = ["decision"]
 
 
 class ResultsWaitPage(WaitPage):
@@ -55,7 +57,7 @@ class Results(Page):
             "num_cooperators": player.group_num_cooperators,
             "group_players": group_players,
             "total_players": len(group_players),
-            "payoff": player.payoff
+            "payoff": player.payoff,
         }
 
 

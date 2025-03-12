@@ -15,13 +15,14 @@ SESSION_CONFIGS = [
     dict(
         name="user_friendly_sd",
         app_sequence=["user_friendly_sd"],
-        num_demo_participants=3,
+        num_demo_participants=6,
         players_per_group=3,
     ),
     dict(
         name="click_competition",
         app_sequence=["click_competition"],
         num_demo_participants=2,
+        players_per_group=2,
     ),
 ]
 

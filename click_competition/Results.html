@@ -1,2 +1,6 @@
-{{ block title }} 結果報告 {{ endblock }} {{ block content }} {{ next_button }}
-{{ endblock }}
+{{ block content }}
+<h2>結果発表！</h2>
+<p>あなたのクリック数: <strong>{{ my_clicks }}</strong></p>
+<p>相手のクリック数： <strong>{{ opponent_clicks }}</strong></p>
+<h3>あなたの結果：<span id="result">{{ result }}</span></h3>
+{{ next_button }} {{ endblock }}
