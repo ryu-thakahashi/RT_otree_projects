@@ -24,6 +24,12 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
         players_per_group=2,
     ),
+    dict(
+        name="simple_tg",
+        app_sequence=["simple_tg"],
+        num_demo_participants=2,
+        players_per_group=2,
+    ),
 ]
 
 
