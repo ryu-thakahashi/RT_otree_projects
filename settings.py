@@ -30,6 +30,13 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
         players_per_group=2,
     ),
+    
+    dict(
+        name="tg_and_pd",
+        app_sequence=["simple_tg", "simple_pd"],
+        num_demo_participants=2,
+        players_per_group=2,
+    ),
 ]
 
 
@@ -50,10 +57,10 @@ SESSION_FIELDS = []
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
-LANGUAGE_CODE = "en"
+LANGUAGE_CODE = "ja"
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = "USD"
+REAL_WORLD_CURRENCY_CODE = "JPY"
 USE_POINTS = True
 
 ADMIN_USERNAME = "admin"

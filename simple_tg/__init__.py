@@ -79,7 +79,7 @@ class SendBack(Page):
     @staticmethod
     def vars_for_template(player: Player):
         group = player.group
-        return {"send_amount": group.send_amount}
+        return {"multiplyed_send_amount": multiplying_send_amount(group.send_amount)}
 
 
 class WaitSendbacker(WaitPage):
@@ -97,11 +97,13 @@ class Results(Page):
     def vars_for_template(player: Player):
         group = player.group
         return {
+            "payoff": player.payoff,
+            "bc_ratio": C.BC_RATIO,
             "send_amount": group.send_amount,
+            "multiplyed_send_amount": multiplying_send_amount(group.send_amount),
             "send_back_amount": group.send_back_amount,
-            "total_send_amount": group.send_amount + group.send_back_amount,
-            "total_received_amount": multiplying_send_amount(group.send_amount)
-            + group.send_back_amount,
+            "total_send_amount": group.get_player_by_id(1).payoff,
+            "total_received_amount": group.get_player_by_id(2).payoff,
         }
 
 
