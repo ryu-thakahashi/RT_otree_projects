@@ -26,6 +26,7 @@ Requires-Dist: polars>=1.24.0
 Requires-Dist: filelock>=3.17.0
 Requires-Dist: requests>=2.32.3
 Requires-Dist: ws4py>=0.6.0
+Requires-Dist: bs4>=0.0.2
 Provides-Extra: dev
 Requires-Dist: coverage; extra == "dev"
 Requires-Dist: mypy; extra == "dev"

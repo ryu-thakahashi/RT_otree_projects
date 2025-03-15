@@ -33,6 +33,7 @@ dependencies = [
   "filelock>=3.17.0",
   "requests>=2.32.3",
   "ws4py>=0.6.0",
+  "bs4>=0.0.2",
 ]
 
 [project.optional-dependencies]

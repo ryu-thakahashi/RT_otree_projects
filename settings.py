@@ -30,13 +30,37 @@ SESSION_CONFIGS = [
         num_demo_participants=2,
         players_per_group=2,
     ),
-    
     dict(
-        name="tg_and_pd",
-        app_sequence=["simple_tg", "simple_pd"],
-        num_demo_participants=2,
-        players_per_group=2,
+        name="prestige_sd",
+        app_sequence=["prestige_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
     ),
+    dict(
+        name="prestige_sd_full",
+        app_sequence=["prestige_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
+        show_payoff=True,
+        show_contribution=True,
+    ),
+    dict(
+        name="prestige_sd_behavior",
+        app_sequence=["prestige_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
+        show_payoff=False,
+        show_contribution=True,
+
+    ),
+    dict(
+        name="prestige_sd_summary",
+        app_sequence=["prestige_sd"],
+        num_demo_participants=3,
+        players_per_group=3,
+        show_payoff=False,
+        show_contribution=False,
+    )
 ]
 
 
