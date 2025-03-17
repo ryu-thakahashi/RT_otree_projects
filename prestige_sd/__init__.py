@@ -7,7 +7,7 @@ Your app description
 
 class C(BaseConstants):
     NAME_IN_URL = "prestige_sd"
-    PLAYERS_PER_GROUP = None
+    PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 3
     BC_RATIO = 3
     ENDOWMENT = 100

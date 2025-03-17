@@ -40,6 +40,7 @@ class PlayerBot(Bot):
                     Decision, {"contribution": invalid_contribution}
                 )
 
+        initial_id_in_subsession = self.player.group.id_in_subsession
         yield Decision, dict(contribution=case[p_id]["cont"])
         yield Results
         assert self.player.payoff == case[p_id]["payoff"]
@@ -49,3 +50,7 @@ class PlayerBot(Bot):
             assert another_res_dict["payoff"] == "？"
         elif not self.group.show_contribution:
             assert another_res_dict["contribution"] == "？"
+
+        # 2ラウンド目以降でグループIDが変わっていないかを確認
+        if self.player.round_number > 1:
+            assert self.player.group.id_in_subsession == initial_id_in_subsession
