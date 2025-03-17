@@ -64,6 +64,10 @@ class Introduction(Page):
     pass
 
 
+class WaitForIntroduction(WaitPage):
+    wait_for_all_groups = True
+
+
 class Decision(Page):
     form_model = "player"
     form_fields = ["contribution"]
@@ -87,4 +91,4 @@ class Results(Page):
         }
 
 
-page_sequence = [Introduction, Decision, ResultsWaitPage, Results]
+page_sequence = [Introduction, WaitForIntroduction, Decision, ResultsWaitPage, Results]
