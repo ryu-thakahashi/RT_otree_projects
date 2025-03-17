@@ -34,13 +34,16 @@ class PlayerBot(Bot):
         if self.player.round_number == 1:
             yield Introduction
 
-        if self.player.id_in_group == 1 and case["case"] == "basic":
+        if (
+            self.player.id_in_group == 1
+            and case["case"] == "basic"
+            and self.player.round_number == 1
+        ):
             for invalid_contribution in [-1, 110]:
                 yield SubmissionMustFail(
                     Decision, {"contribution": invalid_contribution}
                 )
 
-        initial_id_in_subsession = self.player.group.id_in_subsession
         yield Decision, dict(contribution=case[p_id]["cont"])
         yield Results
         assert self.player.payoff == case[p_id]["payoff"]
@@ -53,4 +56,7 @@ class PlayerBot(Bot):
 
         # 2ラウンド目以降でグループIDが変わっていないかを確認
         if self.player.round_number > 1:
-            assert self.player.group.id_in_subsession == initial_id_in_subsession
+            assert (
+                self.player.group.id_in_subsession
+                == self.player.in_round(1).group.id_in_subsession
+            )

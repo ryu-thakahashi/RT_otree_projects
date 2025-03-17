@@ -19,6 +19,13 @@ class Subsession(BaseSubsession):
 
 def creating_session(subsession: Subsession):
     print("creating_session")
+    if subsession.round_number == 1:
+        subsession.group_randomly()
+        for p in subsession.get_players():
+            p.participant.vars["group_id"] = p.group.id_in_subsession
+    else:
+        subsession.group_like_round(1)
+
     for g in subsession.get_groups():
         g.show_payoff = g.session.config["show_payoff"]
         g.show_contribution = g.session.config["show_contribution"]
@@ -72,6 +79,10 @@ class WaitForIntroduction(WaitPage):
 class Decision(Page):
     form_model = "player"
     form_fields = ["contribution"]
+
+    @staticmethod
+    def js_vars(player: Player):
+        return dict(endowment=C.ENDOWMENT)
 
 
 class ResultsWaitPage(WaitPage):
