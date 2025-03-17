@@ -8,7 +8,7 @@ Your app description
 class C(BaseConstants):
     NAME_IN_URL = "prestige_sd"
     PLAYERS_PER_GROUP = None
-    NUM_ROUNDS = 1
+    NUM_ROUNDS = 3
     BC_RATIO = 3
     ENDOWMENT = 100
 
@@ -18,11 +18,10 @@ class Subsession(BaseSubsession):
 
 
 def creating_session(subsession: Subsession):
-    if subsession.round_number == 1:
-        print("creating_session")
-        for g in subsession.get_groups():
-            g.show_payoff = g.session.config["show_payoff"]
-            g.show_contribution = g.session.config["show_contribution"]
+    print("creating_session")
+    for g in subsession.get_groups():
+        g.show_payoff = g.session.config["show_payoff"]
+        g.show_contribution = g.session.config["show_contribution"]
 
 
 class Group(BaseGroup):
@@ -61,7 +60,9 @@ def generate_others_results_list(player: Player):
 
 # PAGES
 class Introduction(Page):
-    pass
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == 1
 
 
 class WaitForIntroduction(WaitPage):
