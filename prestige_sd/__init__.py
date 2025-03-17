@@ -6,7 +6,7 @@ Your app description
 
 
 class C(BaseConstants):
-    NAME_IN_URL = 'prestige_sd'
+    NAME_IN_URL = "prestige_sd"
     PLAYERS_PER_GROUP = None
     NUM_ROUNDS = 1
     BC_RATIO = 3
@@ -15,6 +15,15 @@ class C(BaseConstants):
 
 class Subsession(BaseSubsession):
     pass
+
+
+def creating_session(subsession: Subsession):
+    if subsession.round_number == 1:
+        print("creating_session")
+        for g in subsession.get_groups():
+            g.show_payoff = g.session.config["show_payoff"]
+            g.show_contribution = g.session.config["show_contribution"]
+
 
 class Group(BaseGroup):
     total_contribution = models.CurrencyField()
@@ -25,6 +34,7 @@ class Group(BaseGroup):
 class Player(BasePlayer):
     contribution = models.CurrencyField(min=0, max=C.ENDOWMENT)
 
+
 # FUNCTIONS
 def set_payoffs(group: Group):
     players = group.get_players()
@@ -33,6 +43,7 @@ def set_payoffs(group: Group):
     individual_share = group.total_contribution * C.BC_RATIO / len(players)
     for p in players:
         p.payoff = individual_share + C.ENDOWMENT - p.contribution
+
 
 def generate_others_results_list(player: Player):
     group = player.group
@@ -48,20 +59,18 @@ def generate_others_results_list(player: Player):
     return res_list
 
 
-def creating_session(subsession: Subsession):
-    if subsession.round_number == 1:
-        for g in subsession.get_groups():
-            g.show_payoff = g.session.config["show_payoff"]
-            g.show_contribution = g.session.config["show_contribution"]
-
 # PAGES
+class Introduction(Page):
+    pass
+
+
 class Decision(Page):
-    form_model = 'player'
-    form_fields = ['contribution']
+    form_model = "player"
+    form_fields = ["contribution"]
 
 
 class ResultsWaitPage(WaitPage):
-    after_all_players_arrive = set_payoffs  
+    after_all_players_arrive = set_payoffs
 
 
 class Results(Page):
@@ -70,12 +79,12 @@ class Results(Page):
         group = player.group
         player_results = {"payoff": player.payoff, "contribution": player.contribution}
         return {
-            'total_contribution': group.total_contribution,
+            "total_contribution": group.total_contribution,
             "player_results": player_results,
             "other_results": generate_others_results_list(player),
             "show_payoff": group.show_payoff,
             "show_contribution": group.show_contribution,
-        }   
+        }
 
 
-page_sequence = [Decision, ResultsWaitPage, Results]
+page_sequence = [Introduction, Decision, ResultsWaitPage, Results]

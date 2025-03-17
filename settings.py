@@ -31,7 +31,7 @@ SESSION_CONFIGS = [
         players_per_group=2,
     ),
     dict(
-        name="prestige_sd",
+        name="prestige_sd_demo",
         app_sequence=["prestige_sd"],
         num_demo_participants=3,
         players_per_group=3,

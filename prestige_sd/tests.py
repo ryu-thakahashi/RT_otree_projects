@@ -22,7 +22,7 @@ class PlayerBot(Bot):
         {
             "case": "max_contributions",
             "p1": {"cont": 100, "payoff": 300},
-            "p2": {"cont": 100, "payoff": 300},  
+            "p2": {"cont": 100, "payoff": 300},
             "p3": {"cont": 100, "payoff": 300},
         },
     ]
@@ -31,15 +31,16 @@ class PlayerBot(Bot):
         case = self.case
         p_id = f"p{self.player.id_in_group}"
 
+        if self.player.round_number == 1:
+            yield Introduction
+
         if self.player.id_in_group == 1 and case["case"] == "basic":
             for invalid_contribution in [-1, 110]:
                 yield SubmissionMustFail(
                     Decision, {"contribution": invalid_contribution}
                 )
 
-        yield Decision, dict(
-            contribution=case[p_id]["cont"]
-        )
+        yield Decision, dict(contribution=case[p_id]["cont"])
         yield Results
         assert self.player.payoff == case[p_id]["payoff"]
 
